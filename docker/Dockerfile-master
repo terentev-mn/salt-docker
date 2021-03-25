@@ -1,0 +1,39 @@
+#FROM python:3.7-slim-stretch
+FROM saltstack/ci-ubuntu-2004
+ARG VERSION=3002.6
+# Upgrade System and Install dependencies
+RUN apt-get update && \
+  apt-get upgrade -y -o DPkg::Options::=--force-confold && \
+  apt-get install -y -o DPkg::Options::=--force-confold \
+                curl \
+                python3-mysqldb \
+                python3-pygit2 \
+                netcat \
+                mc \
+                vim
+
+# Install Latest Salt from the stable Branch
+RUN curl -L https://bootstrap.saltstack.com | sh -s -- -X -M -x python3 stable $VERSION
+
+# Set master and id
+RUN echo "master: master\nid: master">/etc/salt/minion
+RUN echo "please">/etc/salt/sign_me && chmod 600 /etc/salt/sign_me
+
+# Install python dependencies
+RUN apt-get install -y -o DPkg::Options::=--force-confold salt-api python3-openssl
+
+# Copy needed files
+COPY saltconfig/stack.py /usr/lib/python3/dist-packages/salt/pillar/stack.py
+COPY saltconfig/dummy.py /usr/lib/python3/dist-packages/salt/pillar/dummy.py
+COPY saltconfig/etc/master /etc/salt/master
+#COPY saltconfig/etc/sign_me /etc/salt/sign_me
+COPY saltconfig/pillar /srv/pillar
+COPY saltconfig/states /srv/states
+
+# Sync auth and returners
+#RUN salt-run saltutil.sync_all
+
+# Create salt-api certs
+RUN salt-call --local tls.create_self_signed_cert cacert_path='/etc/pki'
+
+#ENTRYPOINT ["./entrypoint-master.sh"]

@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  master:
+    hostname: master
+    build:
+      context: ./docker
+      dockerfile: Dockerfile-master
+    environment:
+      - PYTHONUNBUFFERED=true
+    ports:
+      - "8080:8080"
+    command: salt-master -l debug
+  minion:
+    hostname: minion
+    build:
+      context: ./docker
+      dockerfile: Dockerfile-minion
+    command: salt-minion -l info
+    depends_on:
+      - master

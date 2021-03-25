@@ -1,0 +1,5 @@
+db: dbSINA
+role_grains1: {{__grains__.num_cpus}}
+minion_grains: {{ __grains__.id }}
+minion_id: {{ minion_id }}
+

@@ -1,0 +1,29 @@
+#presence_events: true
+runner_dirs:
+- /srv/salt/_runners
+state_auto_order: true
+state_output: changes
+state_top_saltenv: base
+state_verbose: false
+top_file_merging_strategy: same
+
+# fileserver
+file_roots:
+  base:
+    - /srv/states
+
+# pillar
+#pillar_roots:
+#  base:
+#    - /srv/pillar
+
+ext_pillar:
+  - stack:
+      - /srv/pillar/stack0.cfg
+      - /srv/pillar/stack1.cfg
+
+opts_test: master
+
+# autosign keys
+autosign_grains_dir: /etc/salt
+

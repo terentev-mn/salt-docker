@@ -1,0 +1,5 @@
+master: master
+autosign_grains:
+  - sign_me
+
+opts_test: minion

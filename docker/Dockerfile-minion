@@ -1,0 +1,14 @@
+#FROM python:3.7-slim-stretch
+FROM saltstack/ci-ubuntu-2004
+ARG VERSION=3002.6
+# Upgrade System and Install dependencies
+RUN apt-get update && \
+  apt-get upgrade -y -o DPkg::Options::=--force-confold && \
+  apt-get install -y -o DPkg::Options::=--force-confold curl netcat
+
+# Install Latest Salt from the stable Branch
+RUN curl -L https://bootstrap.saltstack.com | sh -s -- -x python3 stable $VERSION
+RUN echo "sign_me: please" > /etc/salt/grains
+RUN echo "minion1" > /etc/salt/minion_id
+
+COPY saltconfig/etc/minion /etc/salt/minion
