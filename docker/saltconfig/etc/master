@@ -27,3 +27,16 @@ opts_test: master
 # autosign keys
 autosign_grains_dir: /etc/salt
 
+event_return: [mysql]
+#master_job_cache: alternative.mysql
+mysql.host: 192.168.31.137
+mysql.user: 'root'
+mysql.passwd: '12345'
+mysql.db: 'salt'
+mysql.port: 3308
+
+
+mine_functions:
+  network.ip_addrs:
+    - eth0
+  mine_interval: 2

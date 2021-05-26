@@ -8,14 +8,29 @@ services:
       dockerfile: Dockerfile-master
     environment:
       - PYTHONUNBUFFERED=true
-    ports:
-      - "8080:8080"
     command: salt-master -l debug
-  minion:
-    hostname: minion
+
+  minion1:
+    hostname: minion1
     build:
       context: ./docker
       dockerfile: Dockerfile-minion
     command: salt-minion -l info
+    volumes:
+      - ./docker/saltconfig/etc/minion_id1:/etc/salt/minion_id
+      - ./docker/.bash_history:/root/.bash_history
     depends_on:
       - master
+
+  minion2:
+    hostname: minion2
+    build:
+      context: ./docker
+      dockerfile: Dockerfile-minion
+    command: salt-minion -l info
+    volumes:
+      - ./docker/saltconfig/etc/minion_id2:/etc/salt/minion_id
+      - ./docker/.bash_history:/root/.bash_history
+    depends_on:
+      - master
+

@@ -3,3 +3,6 @@ autosign_grains:
   - sign_me
 
 opts_test: minion
+mine_functions:
+  network.ip_addrs: []
+  mine_interval: 2

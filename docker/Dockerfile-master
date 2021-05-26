@@ -7,6 +7,8 @@ RUN apt-get update && \
   apt-get install -y -o DPkg::Options::=--force-confold \
                 curl \
                 python3-mysqldb \
+                python3-pymysql \
+                mysql-client-8.0 \
                 python3-pygit2 \
                 netcat \
                 mc \
@@ -23,8 +25,8 @@ RUN echo "please">/etc/salt/sign_me && chmod 600 /etc/salt/sign_me
 RUN apt-get install -y -o DPkg::Options::=--force-confold salt-api python3-openssl
 
 # Copy needed files
-COPY saltconfig/stack.py /usr/lib/python3/dist-packages/salt/pillar/stack.py
-COPY saltconfig/dummy.py /usr/lib/python3/dist-packages/salt/pillar/dummy.py
+#COPY saltconfig/stack.py /usr/lib/python3/dist-packages/salt/pillar/stack.py
+#COPY saltconfig/dummy.py /usr/lib/python3/dist-packages/salt/pillar/dummy.py
 COPY saltconfig/etc/master /etc/salt/master
 #COPY saltconfig/etc/sign_me /etc/salt/sign_me
 COPY saltconfig/pillar /srv/pillar

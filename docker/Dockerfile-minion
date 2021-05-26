@@ -9,6 +9,7 @@ RUN apt-get update && \
 # Install Latest Salt from the stable Branch
 RUN curl -L https://bootstrap.saltstack.com | sh -s -- -x python3 stable $VERSION
 RUN echo "sign_me: please" > /etc/salt/grains
-RUN echo "minion1" > /etc/salt/minion_id
+#RUN cp /bin/bash /bin/sh
+#RUN cat /etc/hostname > /etc/salt/minion_id
 
 COPY saltconfig/etc/minion /etc/salt/minion
